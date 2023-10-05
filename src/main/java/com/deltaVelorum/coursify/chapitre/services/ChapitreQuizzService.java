@@ -18,7 +18,21 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
     }
     @Override
     public void createTableIfNotExist() {
-
+        Connection cnx = DatabaseConnection.getInstance().getCnx();
+        try (Statement stmt = cnx.createStatement())
+        {
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS chapitreQuizzes ( " +
+                    "id INT PRIMARY KEY AUTO_INCREMENT, " +
+                    "name VARCHAR(255), " +
+                    "questions VARCHAR(65535), " +
+                    "answers VARCHAR(255), " +
+                    "chapitreId INT, FOREIGN KEY (chapitreId) REFERENCES chapitres(id) " +
+                    ")";
+            stmt.executeUpdate(createTableQuery);
+            System.out.println("Table created or already exists: chapitreFiles");
+        } catch (SQLException ex) {
+            System.err.println("Error creating table: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -56,7 +70,8 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
     @Override
     public void update(ChapitreQuizz instance) {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
-        String query = "UPDATE chapitreQuizzes SET questions=?, " +
+        String query = "UPDATE chapitreQuizzes SET " +
+                "questions=?, " +
                 "answers=?, " +
                 "chapitreId=? " +
                 "WHERE id=?";

@@ -93,7 +93,8 @@ public class ChapitreService implements IService<Chapitre> {
     public void update(Chapitre chapitre)
     {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
-        String query = "UPDATE chapitres SET name=?, " +
+        String query = "UPDATE chapitres SET " +
+                "name=?, " +
                 "description=?, " +
                 "creationDate=?, " +
                 "type=? " +
