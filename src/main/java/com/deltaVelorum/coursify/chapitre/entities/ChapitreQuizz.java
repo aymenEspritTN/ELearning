@@ -1,4 +1,4 @@
-package com.DeltaVelorum.Coursify.Chapitre;
+package com.deltaVelorum.coursify.chapitre.entities;
 
 import java.util.Arrays;
 

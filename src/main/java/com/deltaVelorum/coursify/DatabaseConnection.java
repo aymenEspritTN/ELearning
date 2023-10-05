@@ -1,4 +1,4 @@
-package com.DeltaVelorum.Coursify.Chapitre;
+package com.deltaVelorum.coursify;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
