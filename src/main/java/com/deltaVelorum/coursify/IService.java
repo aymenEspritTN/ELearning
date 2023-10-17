@@ -3,10 +3,10 @@ package com.deltaVelorum.coursify;
 import java.util.List;
 
 public interface IService<T> {
-    public void createTableIfNotExist();
-    public void add(T instance);
-    public void update(T instance);
-    public void delete(int id);
-    public T getOne(int id);
-    public List<T> getAll();
+    void createTableIfNotExist();
+    void add(T instance);
+    void update(T instance);
+    void delete(int id);
+    T getOne(int id);
+    List<T> getAll();
 }

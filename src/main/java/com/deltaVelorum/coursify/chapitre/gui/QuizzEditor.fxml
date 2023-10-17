@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.chapitre.gui.QuizzEditorController">
+   <children>
+      <Label layoutX="99.0" layoutY="14.0" text="Quizz Editor">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Separator layoutX="47.0" layoutY="59.0" prefHeight="3.0" prefWidth="285.0" />
+      <Label layoutX="43.0" layoutY="71.0" text="Questions" />
+      <ListView fx:id="questionsList" layoutX="43.0" layoutY="93.0" prefHeight="107.0" prefWidth="286.0" />
+      <Separator layoutX="41.0" layoutY="241.0" prefHeight="3.0" prefWidth="285.0" />
+      <Button layoutX="302.0" layoutY="208.0" mnemonicParsing="false" onAction="#onAddQuestionButtonClick" text="+" />
+      <Button layoutX="270.0" layoutY="207.0" mnemonicParsing="false" onAction="#onRemoveQuestionButtonClick" prefHeight="26.0" prefWidth="25.0" text="-" />
+      <Label layoutX="41.0" layoutY="256.0" text="Possible Answers" />
+      <Button layoutX="305.0" layoutY="460.0" mnemonicParsing="false" onAction="#onAddAnswerButtonClick" text="+" />
+      <Button layoutX="273.0" layoutY="459.0" mnemonicParsing="false" onAction="#onRemoveAnswerButtonClick" prefHeight="26.0" prefWidth="25.0" text="-" />
+      <Button layoutX="43.0" layoutY="511.0" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="26.0" prefWidth="134.0" text="Save All" />
+      <Button layoutX="191.0" layoutY="511.0" mnemonicParsing="false" onAction="#onQuitButtonClick" prefHeight="26.0" prefWidth="134.0" text="Cancel" />
+      <Separator layoutX="43.0" layoutY="495.0" prefHeight="3.0" prefWidth="285.0" />
+      <TableView fx:id="answersList" layoutX="41.0" layoutY="279.0" prefHeight="171.0" prefWidth="286.0" />
+   </children>
+</AnchorPane>

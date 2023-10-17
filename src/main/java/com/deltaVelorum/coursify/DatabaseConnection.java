@@ -21,7 +21,7 @@ public class DatabaseConnection {
         if(cnx != null) return cnx;
         try {
             cnx = DriverManager.getConnection(URL, user, pwd);
-            System.out.println("DatabaseConnection created successfully.");
+            System.out.println("DatabaseConnection ("+DBName+") created successfully.");
         }catch (SQLException ex)
         {
             System.err.println("DatabaseConnection Error: " + ex.getMessage());

@@ -3,7 +3,7 @@ package com.deltaVelorum.coursify.chapitre.entities;
 import java.util.Date;
 public class Chapitre {
     private int id;
-    private String name;
+    private String name = "New chapitre";
     private String description = "No description.";
     private Date creationDate = new java.util.Date();
     private ChapitreType type = ChapitreType.Text;

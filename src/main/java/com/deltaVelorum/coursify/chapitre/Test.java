@@ -8,9 +8,12 @@ import com.deltaVelorum.coursify.chapitre.services.ChapitreService;
 
 public class Test {
 
+    /// how to setup javaFX
+    /// https://stackoverflow.com/questions/47224993/intellij-is-it-possible-to-make-controller-as-in-netbeans
+    /// https://www.youtube.com/watch?v=hS_6ek9rTco
     public static void testAddFile()
     {
-        ChapitreFile f = new ChapitreFile();
+        ChapitreFile f = new ChapitreFile(132);
         f.setName("file.ext");
         f.setContentFromPath("C:/Users/aymen/Downloads/albert-dros-colorful-forest-landscape-4.jpg");
         f.setChapitreId(1);

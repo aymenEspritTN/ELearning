@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ChapitreFileService implements IService<ChapitreFile> {
 
-    private static ChapitreFileService instance = new ChapitreFileService();
+    private static final ChapitreFileService instance = new ChapitreFileService();
     public static ChapitreFileService getInstance()
     {
         return instance;
@@ -59,7 +59,7 @@ public class ChapitreFileService implements IService<ChapitreFile> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -67,7 +67,7 @@ public class ChapitreFileService implements IService<ChapitreFile> {
     public void update(ChapitreFile instance) {
 
         Connection cnx = DatabaseConnection.getInstance().getCnx();
-        String query = "UPDATE chapitres SET " +
+        String query = "UPDATE chapitreFiles SET " +
                 "name=?, " +
                 "content=?, " +
                 "chapitreId=? " +
@@ -88,7 +88,7 @@ public class ChapitreFileService implements IService<ChapitreFile> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -101,7 +101,7 @@ public class ChapitreFileService implements IService<ChapitreFile> {
             pst.executeUpdate();
             System.out.println("File deleted successfully");
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
     @Override
@@ -121,15 +121,14 @@ public class ChapitreFileService implements IService<ChapitreFile> {
         String query = "SELECT * FROM chapitreFiles";
         try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
-                ChapitreFile file = new ChapitreFile();
+                ChapitreFile file = new ChapitreFile(rs.getInt("chapitreId"));
                 file.setId(rs.getInt("id"));
                 file.setName(rs.getString("name"));
                 file.setContent(rs.getBytes("content"));
-                file.setChapitreId(rs.getInt("chapitreId"));
                 mylist.add(file);
             }
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return mylist;
     }

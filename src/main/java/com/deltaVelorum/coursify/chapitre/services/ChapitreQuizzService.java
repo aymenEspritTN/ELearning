@@ -3,6 +3,7 @@ package com.deltaVelorum.coursify.chapitre.services;
 import com.deltaVelorum.coursify.DatabaseConnection;
 import com.deltaVelorum.coursify.IService;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
+import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzQuestion;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class ChapitreQuizzService implements IService<ChapitreQuizz> {
 
-    private static ChapitreQuizzService instance = new ChapitreQuizzService();
+    private static final ChapitreQuizzService instance = new ChapitreQuizzService();
     public static ChapitreQuizzService getInstance()
     {
         return instance;
@@ -24,8 +25,9 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
             String createTableQuery = "CREATE TABLE IF NOT EXISTS chapitreQuizzes ( " +
                     "id INT PRIMARY KEY AUTO_INCREMENT, " +
                     "name VARCHAR(255), " +
-                    "questions VARCHAR(65535), " +
-                    "answers VARCHAR(255), " +
+                    "questions TEXT, " +
+                    "answers TEXT, " +
+                    "correctAnswers VARCHAR(255), " +
                     "chapitreId INT, FOREIGN KEY (chapitreId) REFERENCES chapitres(id) " +
                     ")";
             stmt.executeUpdate(createTableQuery);
@@ -38,17 +40,13 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
     @Override
     public void add(ChapitreQuizz instance) {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
-        String query = "INSERT INTO chapitreQuizzes (questions, answers, chapitreId) VALUES (?, ?, ?)";
+        String query = "INSERT INTO chapitreQuizzes (questions, answers, correctAnswers, chapitreId) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
         {
-            pst.setString(1, String.join(",", instance.getQuestions()));
-            int[] answersInt = instance.getAnswers();
-            String[] answers = new String[answersInt.length];
-            for (int i = 0; i < answers.length; i++) {
-                answers[i] = String.valueOf(answersInt[i]);
-            }
-            pst.setString(2, String.join(",", answers));
-            pst.setInt(3, instance.getChapitreId());
+            pst.setString(1, instance.getQuestionsAsDelimitedString());
+            pst.setString(2, instance.getAnswersAsDelimitedString());
+            pst.setString(3, instance.getAnswersIsCorrectAsDelimitedString());
+            pst.setInt(4, instance.getChapitreId());
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -63,7 +61,7 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -73,19 +71,16 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
         String query = "UPDATE chapitreQuizzes SET " +
                 "questions=?, " +
                 "answers=?, " +
+                "correctAnswers=?, " +
                 "chapitreId=? " +
                 "WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(query))
         {
-            pst.setString(1, String.join(",", instance.getQuestions()));
-            int[] answersInt = instance.getAnswers();
-            String[] answers = new String[answersInt.length];
-            for (int i = 0; i < answers.length; i++) {
-                answers[i] = String.valueOf(answersInt[i]);
-            }
-            pst.setString(2, String.join(",", answers));
-            pst.setInt(3, instance.getChapitreId());
-            pst.setInt(4, instance.getId());
+            pst.setString(1, instance.getQuestionsAsDelimitedString());
+            pst.setString(2, instance.getAnswersAsDelimitedString());
+            pst.setString(3, instance.getAnswersIsCorrectAsDelimitedString());
+            pst.setInt(4, instance.getChapitreId());
+            pst.setInt(5, instance.getId());
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -96,7 +91,7 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -109,7 +104,7 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
             pst.executeUpdate();
             System.out.println("Quizz deleted successfully");
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -127,21 +122,19 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
     public List<ChapitreQuizz> getAll() {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
         List<ChapitreQuizz> mylist = new ArrayList<>();
-        String query = "SELECT * FROM chapitres";
+        String query = "SELECT * FROM chapitreQuizzes";
         try (Statement st = cnx.createStatement(); ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
-                ChapitreQuizz quizz = new ChapitreQuizz();
+                ChapitreQuizz quizz = new ChapitreQuizz(rs.getInt("chapitreId"));
                 quizz.setId(rs.getInt("id"));
-                String[] questions = rs.getString("questions").split(",");
+                ArrayList<ChapitreQuizzQuestion> questions =
+                      ChapitreQuizz.makeQuestionsFromDelimitedString(rs.getString("questions"),
+                                rs.getString("answers"),rs.getString("correctAnswers"));
                 quizz.setQuestions(questions);
-                String[] answersStr = rs.getString("answers").split(",");
-                int[] answers = Arrays.stream(answersStr).mapToInt(Integer::parseInt).toArray();
-                quizz.setAnswers(answers);
-                quizz.setChapitreId(rs.getInt("chapitreId"));
                 mylist.add(quizz);
             }
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return mylist;
     }

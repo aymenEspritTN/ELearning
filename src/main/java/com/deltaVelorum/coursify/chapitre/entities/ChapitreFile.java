@@ -21,6 +21,10 @@ public class ChapitreFile {
         }
     }
 
+    public ChapitreFile(int _chapitreId) //only this in constructor bc its the only HARD required field.
+    {
+        chapitreId = _chapitreId;
+    }
     @Override
     public String toString() {
         return "ChapitreFile{" +

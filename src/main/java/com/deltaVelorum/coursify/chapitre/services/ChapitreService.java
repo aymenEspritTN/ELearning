@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChapitreService implements IService<Chapitre> {
-    private static ChapitreService instance = new ChapitreService();
+    private static final ChapitreService instance = new ChapitreService();
     public static ChapitreService getInstance()
     {
         return instance;
@@ -61,7 +61,7 @@ public class ChapitreService implements IService<Chapitre> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
     @Override
@@ -74,7 +74,7 @@ public class ChapitreService implements IService<Chapitre> {
             pst.executeUpdate();
             System.out.println("Chapitre deleted successfully");
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
@@ -116,7 +116,7 @@ public class ChapitreService implements IService<Chapitre> {
         }
         catch (SQLException ex)
         {
-            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
     }
     @Override
@@ -139,7 +139,8 @@ public class ChapitreService implements IService<Chapitre> {
                 mylist.add(chapitre);
             }
         } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
+            //System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         return mylist;
     }
