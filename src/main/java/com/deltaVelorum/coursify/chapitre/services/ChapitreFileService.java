@@ -3,6 +3,7 @@ package com.deltaVelorum.coursify.chapitre.services;
 import com.deltaVelorum.coursify.DatabaseConnection;
 import com.deltaVelorum.coursify.IService;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreFile;
+import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -114,6 +115,18 @@ public class ChapitreFileService implements IService<ChapitreFile> {
         }
         return null;
     }
+
+    public ChapitreFile getOneByChapitreId(int chapitreId)
+    {
+        List<ChapitreFile> all = getAll();
+        for(ChapitreFile e : all)
+        {
+            if(e.getChapitreId() == chapitreId)
+                return e;
+        }
+        return null;
+    }
+
     @Override
     public List<ChapitreFile> getAll() {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
@@ -132,4 +145,5 @@ public class ChapitreFileService implements IService<ChapitreFile> {
         }
         return mylist;
     }
+
 }

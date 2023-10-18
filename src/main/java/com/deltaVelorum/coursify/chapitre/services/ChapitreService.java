@@ -78,6 +78,25 @@ public class ChapitreService implements IService<Chapitre> {
         }
     }
 
+    public void fullDelete(Chapitre c)
+    {
+        // need to delete everything related to it too, in other tables
+        // (otherwise, if linked through foreign key in another table, SQL will throw err
+        if(c.getType() == ChapitreType.Quizz)
+        {
+            var quizz = ChapitreQuizzService.getInstance().getOneByChapitreId(c.getId());
+            ChapitreQuizzService.getInstance().delete(quizz.getId());
+        }
+        else
+        {
+            var file = ChapitreFileService.getInstance().getOneByChapitreId(c.getId());
+            ChapitreFileService.getInstance().delete(file.getId());
+        }
+        delete(c.getId());
+        System.out.println("deleted chapitre & all files/quizzes related to chapitre: "
+                + c.getId() + ": " + c.getName());
+    }
+
     @Override
     public Chapitre getOne(int id) {
         List<Chapitre> all = getAll();

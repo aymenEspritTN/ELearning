@@ -118,6 +118,18 @@ public class ChapitreQuizzService implements IService<ChapitreQuizz> {
         }
         return null;
     }
+
+    public ChapitreQuizz getOneByChapitreId(int chapitreId)
+    {
+        List<ChapitreQuizz> all = getAll();
+        for(ChapitreQuizz e : all)
+        {
+            if(e.getChapitreId() == chapitreId)
+                return e;
+        }
+        return null;
+    }
+
     @Override
     public List<ChapitreQuizz> getAll() {
         Connection cnx = DatabaseConnection.getInstance().getCnx();

@@ -1,7 +1,6 @@
 package com.deltaVelorum.coursify.chapitre.entities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class ChapitreQuizz { // the format in DB: q1|q2 a11,a12,a13|a21 etc..

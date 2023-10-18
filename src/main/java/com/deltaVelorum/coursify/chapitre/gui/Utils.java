@@ -1,6 +1,8 @@
 package com.deltaVelorum.coursify.chapitre.gui;
 
 import com.deltaVelorum.coursify.chapitre.entities.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -127,7 +129,18 @@ public class Utils {
 
         TableColumn<ChapitreQuizzAnswer, Boolean> isCorrectCol = new TableColumn<>("Correct?");
         isCorrectCol.setMinWidth(100);
-        isCorrectCol.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
+        // option 1: use "isCorrect() and getIsCorrect() as getter/setter"
+        //isCorrectCol.setCellValueFactory(new PropertyValueFactory<>("isCorrect"));
+        // option 2: custom jfx value loader
+        isCorrectCol.setCellValueFactory(cellData -> {
+            ChapitreQuizzAnswer answer = cellData.getValue();
+            BooleanProperty property = new SimpleBooleanProperty(answer.getIsCorrect());
+            property.addListener((observable, oldValue, newValue) -> {
+                answer.setIsCorrect(newValue);
+                System.out.println("Answer was modified!");
+            });
+            return property;
+        });
         isCorrectCol.setCellFactory(col -> {
             CheckBoxTableCell<ChapitreQuizzAnswer, Boolean> checkBoxCell = new CheckBoxTableCell<>();
             checkBoxCell.setAlignment(Pos.CENTER);
@@ -138,12 +151,12 @@ public class Utils {
         answerTextCol.setOnEditCommit(event -> {
             ChapitreQuizzAnswer answer = event.getRowValue();
             answer.setText(event.getNewValue());
-            System.out.println(answer);
+            System.out.println("Answer was modified!");
         });
         isCorrectCol.setOnEditCommit(event -> {
             ChapitreQuizzAnswer answer = event.getRowValue();
             answer.setIsCorrect(event.getNewValue());
-            System.out.println(answer);
+            System.out.println("Answer was modified!");
         });
 
         table.getColumns().addAll(answerTextCol, isCorrectCol);
