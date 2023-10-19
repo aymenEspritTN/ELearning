@@ -3,8 +3,11 @@ package com.deltaVelorum.coursify.chapitre.gui;
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreType;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreService;
+import com.mysql.cj.util.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
@@ -22,6 +25,18 @@ public class ChapterEditorController {
         originalChapitres = ChapitreService.getInstance().getAll();
         chaptersView.getItems().addAll(ChapitreService.getInstance().getAll());
     }
+    static class Course{ List<Integer> chapitresIds;}
+    /*public void initialize(Course course)
+    {
+        ChapitreService.getInstance().createTableIfNotExist();
+        Utils.setupChaptersTable(chaptersView);
+        originalChapitres = new ArrayList<>();
+        for(int chapitreId : course.chapitresIds)
+        {
+            originalChapitres.add(ChapitreService.getInstance().getOne(chapitreId))
+        }
+        chaptersView.getItems().addAll(originalChapitres);
+    }*/
     @FXML
     public void onSaveButtonClick(ActionEvent actionEvent)
     {
@@ -54,6 +69,15 @@ public class ChapterEditorController {
                 }
             }
             // if existing, update it
+            if(contains)
+            {
+                if(StringUtils.isNullOrEmpty(chapitre.getName()))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Chapitre name cannot be empty!", ButtonType.OK);
+                    alert.showAndWait();
+                    return;
+                }
+            }
             if(contains)
             {
                 ChapitreService.getInstance().update(chapitre);

@@ -30,7 +30,7 @@ public class Main extends Application {
         ChapterEditorController controller = loader.getController();
 
         primaryStage.setTitle("Chapitre Editor");
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 

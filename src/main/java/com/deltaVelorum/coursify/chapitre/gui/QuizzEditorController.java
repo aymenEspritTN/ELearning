@@ -5,11 +5,10 @@ import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzAnswer;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzQuestion;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreQuizzService;
+import com.mysql.cj.util.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionModel;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 public class QuizzEditorController {
     @FXML
@@ -93,6 +92,15 @@ public class QuizzEditorController {
     }
 
     public void onSaveButtonClick(ActionEvent actionEvent) {
+        for(var q : quizz.getQuestions())
+        {
+            if(StringUtils.isNullOrEmpty(q.getText()))
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Quizz name cannot be empty!", ButtonType.OK);
+                alert.showAndWait();
+                return;
+            }
+        }
         ChapitreQuizzService.getInstance().update(quizz);
     }
 
