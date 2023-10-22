@@ -11,6 +11,10 @@ public class DatabaseConnection {
     private final String DBName = "ELearning";
     private final String URL = "jdbc:mysql://localhost:3306/" + DBName;
     private Connection cnx;
+    private DatabaseConnection()
+    {
+
+    }
     public static DatabaseConnection getInstance()
     {
         if(instance == null) instance = new DatabaseConnection();

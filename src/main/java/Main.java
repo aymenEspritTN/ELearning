@@ -1,4 +1,5 @@
 
+import com.deltaVelorum.coursify.DatabaseConnection;
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreType;
 import com.deltaVelorum.coursify.chapitre.gui.ChapterEditorController;

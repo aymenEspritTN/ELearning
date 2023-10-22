@@ -87,7 +87,24 @@ public class ChapterEditorController {
                 ChapitreService.getInstance().add(chapitre);
             }
         }
+
         originalChapitres = ChapitreService.getInstance().getAll();
+
+        ButtonType sendButtonType = new ButtonType("Send Email");
+        ButtonType cancelButtonType = new ButtonType("Cancel");
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION,
+                "Do you want to send an email?", sendButtonType, cancelButtonType);
+        confirmationDialog.setTitle("Email Confirmation");
+        confirmationDialog.setHeaderText(null);
+        confirmationDialog.showAndWait().ifPresent(response -> {
+            if (response == sendButtonType)
+            {
+                String emailTitle = "Your Coursify course was changed successfully!";
+                String emailContent = "Make sure to look at the new reviews for further adjustements!";
+                Utils.sendMail("aymen.ayoo@gmail.com", emailTitle, emailContent);
+
+            }
+        });
     }
     @FXML
     public void onAddButtonClick(ActionEvent actionEvent) {
