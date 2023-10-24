@@ -2,12 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.chapitre.gui.FileEditorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="155.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.chapitre.gui.FileEditorController">
    <children>
       <Button layoutX="217.0" layoutY="19.0" mnemonicParsing="false" onAction="#onOpenFileClick" prefHeight="42.0" prefWidth="78.0" text="Open file" />
       <Label layoutX="22.0" layoutY="14.0" text="Upload a file">
@@ -31,5 +33,12 @@
             <Image url="@img/video.png" />
          </image>
       </ImageView>
+      <Separator layoutX="23.0" layoutY="109.0" prefHeight="0.0" prefWidth="367.0" visible="false" />
+      <TextField fx:id="urlTextField" layoutX="108.0" layoutY="119.0" prefHeight="22.0" prefWidth="277.0" visible="false">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </TextField>
+      <Label layoutX="23.0" layoutY="121.0" text="Or From URL" visible="false" />
    </children>
 </AnchorPane>

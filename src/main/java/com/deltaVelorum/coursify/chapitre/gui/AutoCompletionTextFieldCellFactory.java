@@ -6,7 +6,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.input.KeyCode;
 
 public class AutoCompletionTextFieldCellFactory extends TableCell<Chapitre, String> {
-    private AutoCompletionTextField textField;
+    private final AutoCompletionTextField textField;
 
     public AutoCompletionTextField getTextField()
     {

@@ -43,19 +43,25 @@
             <version>1.6.2</version>
         </dependency>
 
-        <dependency>
+        <!---dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/mysql-connector-java-8.0.30.jar</systemPath>
+        </dependency-->
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx</artifactId>
-            <version>21</version>
+            <version>11</version>
             <type>pom</type>
         </dependency>
         <dependency>
@@ -66,8 +72,15 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>20</version>
+            <version>11</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>11</version>
+        </dependency>
+
+
     </dependencies>
 
 

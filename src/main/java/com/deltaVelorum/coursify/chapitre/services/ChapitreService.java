@@ -85,12 +85,12 @@ public class ChapitreService implements IService<Chapitre> {
         if(c.getType() == ChapitreType.Quizz)
         {
             var quizz = ChapitreQuizzService.getInstance().getOneByChapitreId(c.getId());
-            ChapitreQuizzService.getInstance().delete(quizz.getId());
+            if(quizz != null) ChapitreQuizzService.getInstance().delete(quizz.getId());
         }
         else
         {
             var file = ChapitreFileService.getInstance().getOneByChapitreId(c.getId());
-            ChapitreFileService.getInstance().delete(file.getId());
+            if(file != null) ChapitreFileService.getInstance().delete(file.getId());
         }
         delete(c.getId());
         System.out.println("deleted chapitre & all files/quizzes related to chapitre: "

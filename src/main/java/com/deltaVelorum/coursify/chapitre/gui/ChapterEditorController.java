@@ -40,6 +40,26 @@ public class ChapterEditorController {
     @FXML
     public void onSaveButtonClick(ActionEvent actionEvent)
     {
+        updateChapitresInDB();
+
+        ButtonType sendButtonType = new ButtonType("Send Email");
+        ButtonType cancelButtonType = new ButtonType("Cancel");
+        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION,
+                "Do you want to send an email?", sendButtonType, cancelButtonType);
+        confirmationDialog.setTitle("Email Confirmation");
+        confirmationDialog.setHeaderText(null);
+        confirmationDialog.showAndWait().ifPresent(response -> {
+            if (response == sendButtonType)
+            {
+                String emailTitle = "Your Coursify course was changed successfully!";
+                String emailContent = "Make sure to look at the new reviews for further adjustements!";
+                Utils.sendMail("aymen.ayoo@gmail.com", emailTitle, emailContent);
+            }
+        });
+    }
+
+    void updateChapitresInDB()
+    {
         for(Chapitre c: originalChapitres)
         {
             boolean wasDeleted = true;
@@ -71,12 +91,8 @@ public class ChapterEditorController {
             // if existing, update it
             if(contains)
             {
-                if(StringUtils.isNullOrEmpty(chapitre.getName()))
-                {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Chapitre name cannot be empty!", ButtonType.OK);
-                    alert.showAndWait();
+                if(!Utils.AssertNotNullOrALERT(chapitre.getName()))
                     return;
-                }
             }
             if(contains)
             {
@@ -89,27 +105,15 @@ public class ChapterEditorController {
         }
 
         originalChapitres = ChapitreService.getInstance().getAll();
-
-        ButtonType sendButtonType = new ButtonType("Send Email");
-        ButtonType cancelButtonType = new ButtonType("Cancel");
-        Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION,
-                "Do you want to send an email?", sendButtonType, cancelButtonType);
-        confirmationDialog.setTitle("Email Confirmation");
-        confirmationDialog.setHeaderText(null);
-        confirmationDialog.showAndWait().ifPresent(response -> {
-            if (response == sendButtonType)
-            {
-                String emailTitle = "Your Coursify course was changed successfully!";
-                String emailContent = "Make sure to look at the new reviews for further adjustements!";
-                Utils.sendMail("aymen.ayoo@gmail.com", emailTitle, emailContent);
-
-            }
-        });
     }
+
+
     @FXML
     public void onAddButtonClick(ActionEvent actionEvent) {
         Chapitre c = new Chapitre();
         Utils.addChaptersToChaptersTable(chaptersView, c);
+        // need to uupdate DB, otherwise when edit is clicked it will show error of foreign key not found
+        updateChapitresInDB();
     }
     @FXML
     public void onRemoveButtonClick(ActionEvent actionEvent) {

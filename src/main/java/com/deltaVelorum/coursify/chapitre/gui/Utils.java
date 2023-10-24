@@ -208,6 +208,20 @@ public class Utils {
         }
     }
 
+
+    public static boolean AssertNotNullOrALERT(String name, String prefix) {
+        if(StringUtils.isNullOrEmpty(name))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, prefix + " cannot be empty!", ButtonType.OK);
+            alert.showAndWait();
+            return false;
+        }
+        return true;
+    }
+    public static boolean AssertNotNullOrALERT(String name){
+        return AssertNotNullOrALERT(name, "Name");
+    }
+
     public static boolean assertAnyQuestionSelected(ListView<String> list) {
 
         SelectionModel<String> selectionModel = list.getSelectionModel();
@@ -297,7 +311,7 @@ public class Utils {
                 if(StringUtils.isNullOrEmpty(newValue))
                     return;
                 if(!textField.isFocused())
-                    return;;
+                    return;
                 //System.out.println("textfield changed from " + oldValue + " to " + newValue);
                 try {
                     var suggestions = getGoogleAutocompleteSuggestions(newValue);

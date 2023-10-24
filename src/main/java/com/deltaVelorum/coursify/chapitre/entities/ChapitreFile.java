@@ -1,5 +1,8 @@
 package com.deltaVelorum.coursify.chapitre.entities;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -21,10 +24,26 @@ public class ChapitreFile {
         }
     }
 
+    public File makeTempFileFromContent(String extension)
+    {
+        File tempFile;
+        try {
+            tempFile = File.createTempFile(java.util.UUID.randomUUID().toString(), "." + extension);
+            try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                fos.write(content);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return tempFile;
+    }
+
     public ChapitreFile(int _chapitreId) //only this in constructor bc its the only HARD required field.
     {
         chapitreId = _chapitreId;
     }
+
     @Override
     public String toString() {
         return "ChapitreFile{" +

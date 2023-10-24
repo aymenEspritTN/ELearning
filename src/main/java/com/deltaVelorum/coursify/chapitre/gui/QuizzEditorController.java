@@ -94,11 +94,12 @@ public class QuizzEditorController {
     public void onSaveButtonClick(ActionEvent actionEvent) {
         for(var q : quizz.getQuestions())
         {
-            if(StringUtils.isNullOrEmpty(q.getText()))
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Quizz name cannot be empty!", ButtonType.OK);
-                alert.showAndWait();
+            if(!Utils.AssertNotNullOrALERT(q.getText(), "Question"))
                 return;
+            for(var a : q.getAnswers())
+            {
+                if(!Utils.AssertNotNullOrALERT(a.getText(), "Answer"))
+                    return;
             }
         }
         ChapitreQuizzService.getInstance().update(quizz);

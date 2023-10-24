@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="anchorPaneContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="802.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.courseViewer.gui.CourseViewerController">
+   <children>
+      <Label fx:id="courseTitleLabel" layoutX="201.0" layoutY="23.0" prefHeight="31.0" prefWidth="422.0" text="This is an example of a title of a course" textAlignment="CENTER">
+         <font>
+            <Font name="Calibri Italic" size="26.0" />
+         </font>
+      </Label>
+      <Separator layoutX="39.0" layoutY="63.0" prefHeight="0.0" prefWidth="746.0" />
+      <ScrollPane layoutX="17.0" layoutY="78.0" prefHeight="450.0" prefWidth="783.0" style="-fx-background-color: transparent;">
+         <content>
+            <VBox fx:id="mainContainer" />
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

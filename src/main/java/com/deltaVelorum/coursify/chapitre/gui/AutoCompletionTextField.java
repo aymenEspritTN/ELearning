@@ -22,7 +22,7 @@ public class AutoCompletionTextField extends TextField {
     //entries to autocomplete
     private final SortedSet<String> entries;
     //popup GUI
-    private ContextMenu entriesPopup;
+    private final ContextMenu entriesPopup;
 
 
     public AutoCompletionTextField() {
