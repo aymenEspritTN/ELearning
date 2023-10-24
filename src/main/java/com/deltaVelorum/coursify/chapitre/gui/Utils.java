@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -27,9 +28,9 @@ import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,105 @@ public class Utils {
 
         return "";
     }
+
+
+
+    public static ArrayList<ChapitreQuizzQuestion> getTriviaQuestions(int numberOfQuestions) {
+        ArrayList<ChapitreQuizzQuestion> questionsList = new ArrayList<>();
+
+        try {
+            String apiUrl = "https://opentdb.com/api.php?amount=" + numberOfQuestions + "&type=multiple";
+            URL url = new URL(apiUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuilder content = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            connection.disconnect();
+
+            // Parse JSON response to extract trivia questions and answers
+            JSONObject jsonObject = new JSONObject(content.toString());
+            JSONArray results = jsonObject.getJSONArray("results");
+
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject questionObject = results.getJSONObject(i);
+                String questionText = questionObject.getString("question");
+
+                JSONArray incorrectAnswersArray = questionObject.getJSONArray("incorrect_answers");
+                ArrayList<ChapitreQuizzAnswer> answers = new ArrayList<>();
+                for (int j = 0; j < incorrectAnswersArray.length(); j++) {
+                    answers.add(new ChapitreQuizzAnswer(incorrectAnswersArray.getString(j), false));
+                }
+
+                // Add the correct answer
+                answers.add(new ChapitreQuizzAnswer(questionObject.getString("correct_answer"), true));
+
+                ChapitreQuizzQuestion question = new ChapitreQuizzQuestion();
+                question.setText(questionText);
+                question.setAnswers(answers);
+                questionsList.add(question);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return questionsList;
+    }
+
+    // https://rollbar.com/blog/how-to-use-chatgpt-api-with-java/
+    public static String chatGPT(String prompt) {
+        String url = "https://api.openai.com/v1/chat/completions";
+        String apiKey = "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";
+        String model = "gpt-3.5-turbo";
+
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // The request body
+            String body = "{\"model\": \"" + model + "\", \"messages\": [{\"role\": \"user\", \"content\": \"" + prompt + "\"}]}";
+            connection.setDoOutput(true);
+            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+            writer.write(body);
+            writer.flush();
+            writer.close();
+
+            // Response from ChatGPT
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+
+            StringBuffer response = new StringBuffer();
+
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+            br.close();
+
+            // calls the method to extract the message.
+            return extractMessageFromChatGPTJSONResponse(response.toString());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private static String extractMessageFromChatGPTJSONResponse(String response) {
+        int start = response.indexOf("content")+ 11;
+
+        int end = response.indexOf("\"", start);
+
+        return response.substring(start, end);
+
+    }
+
 
     public static List<String> getGoogleAutocompleteSuggestions(String query) throws IOException {
         String apiUrl = "http://suggestqueries.google.com/complete/search?client=firefox&q=" + query.replace(" ", "%20");
@@ -171,7 +271,7 @@ public class Utils {
                                 int index = cell.getIndex();
                                 String newText = textField.getText();
                                 if (index >= 0 && index < quizz.getQuestions().size()) {
-                                    quizz.getQuestions().get(index).text = newText;
+                                    quizz.getQuestions().get(index).setText(newText);;
                                 }
                             }
                         });
@@ -193,7 +293,7 @@ public class Utils {
     public static void resetAndFillAnswersList(TableView<ChapitreQuizzAnswer> answersList,
                                                ChapitreQuizz quizz, int selectedQuestion) {
         answersList.getItems().clear();
-        for (ChapitreQuizzAnswer answer : quizz.getQuestions().get(selectedQuestion).answers) {
+        for (ChapitreQuizzAnswer answer : quizz.getQuestions().get(selectedQuestion).getAnswers()) {
             answersList.getItems().add(answer);
         }
     }

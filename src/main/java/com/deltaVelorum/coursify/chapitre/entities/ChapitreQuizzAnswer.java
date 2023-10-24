@@ -13,6 +13,15 @@ public class ChapitreQuizzAnswer {
                 '}';
     }
 
+    public ChapitreQuizzAnswer()
+    {
+
+    }
+    public ChapitreQuizzAnswer(String text, boolean isCorrect) {
+        this.text = text;
+        this.isCorrect = isCorrect;
+    }
+
     public String getText() {
         return text;
     }

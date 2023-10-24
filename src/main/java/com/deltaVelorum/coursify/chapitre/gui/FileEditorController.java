@@ -2,9 +2,7 @@ package com.deltaVelorum.coursify.chapitre.gui;
 
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreFile;
-import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreFileService;
-import com.deltaVelorum.coursify.chapitre.services.ChapitreQuizzService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -28,6 +26,8 @@ public class FileEditorController {
     }
     public void initialize(Chapitre selectedItem)
     {
+        //stage.setResizable(false);
+
         ChapitreFileService.getInstance().createTableIfNotExist();
 
         if(selectedItem == null)

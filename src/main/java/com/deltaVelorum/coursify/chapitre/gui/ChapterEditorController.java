@@ -1,16 +1,13 @@
 package com.deltaVelorum.coursify.chapitre.gui;
 
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
-import com.deltaVelorum.coursify.chapitre.entities.ChapitreType;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreService;
-import com.mysql.cj.util.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChapterEditorController {

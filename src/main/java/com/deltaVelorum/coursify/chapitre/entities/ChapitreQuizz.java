@@ -49,7 +49,7 @@ public class ChapitreQuizz { // the format in DB: q1|q2 a11,a12,a13|a21 etc..
                 continue;
 
             var q = new ChapitreQuizzQuestion();
-            q.text = questionText;
+            q.setText(questionText);
             var a = answers[i].split(",");
             var b = correctAnswers[i].split(",");
             for(var j=0; j<a.length; j++)
@@ -61,7 +61,7 @@ public class ChapitreQuizz { // the format in DB: q1|q2 a11,a12,a13|a21 etc..
                 var aa = new ChapitreQuizzAnswer();
                 aa.setText(answerText);
                 aa.setIsCorrect(Boolean.parseBoolean(b[j]));
-                q.answers.add(aa);
+                q.getAnswers().add(aa);
             }
             arr.add(q);
         }

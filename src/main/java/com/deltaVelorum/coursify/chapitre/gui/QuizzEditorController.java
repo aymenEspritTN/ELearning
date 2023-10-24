@@ -5,10 +5,11 @@ import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzAnswer;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzQuestion;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreQuizzService;
-import com.mysql.cj.util.StringUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionModel;
+import javafx.scene.control.TableView;
 
 public class QuizzEditorController {
     @FXML
@@ -62,7 +63,7 @@ public class QuizzEditorController {
     public void onAddQuestionButtonClick(ActionEvent actionEvent)
     {
         ChapitreQuizzQuestion newQuestion = new ChapitreQuizzQuestion();
-        newQuestion.text = "new question";
+        newQuestion.setText("new question");
         quizz.getQuestions().add(newQuestion);
         Utils.resetAndFillQuestionsList(questionsList, quizz);
     }
@@ -80,7 +81,7 @@ public class QuizzEditorController {
         ChapitreQuizzAnswer newAnswer = new ChapitreQuizzAnswer();
         newAnswer.setText("new answer");
         Utils.addAnswersToTreeView(answersList, newAnswer);
-        quizz.getQuestions().get(selectedQuestion).answers.add(newAnswer);
+        quizz.getQuestions().get(selectedQuestion).getAnswers().add(newAnswer);
     }
 
     public void onRemoveAnswerButtonClick(ActionEvent actionEvent) {
@@ -88,7 +89,17 @@ public class QuizzEditorController {
 
         SelectionModel<ChapitreQuizzAnswer> selectionModel = answersList.getSelectionModel();
         ChapitreQuizzAnswer selectedItem = selectionModel.getSelectedItem();
-        quizz.getQuestions().get(selectedQuestion).answers.remove(selectedItem);
+        quizz.getQuestions().get(selectedQuestion).getAnswers().remove(selectedItem);
+    }
+
+    public void onAIButtonClick(ActionEvent actionEvent) {
+
+    }
+
+    public void onGenerateRandomQuizzButtonClick(ActionEvent actionEvent) {
+        var newQuestions = Utils.getTriviaQuestions(1);
+        quizz.getQuestions().addAll(newQuestions);
+        Utils.resetAndFillQuestionsList(questionsList, quizz);
     }
 
     public void onSaveButtonClick(ActionEvent actionEvent) {

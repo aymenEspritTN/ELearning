@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class ChapitreQuizzQuestion {
-    public String text;
-    public ArrayList<ChapitreQuizzAnswer> answers = new ArrayList<>();
+    private String text;
+    private ArrayList<ChapitreQuizzAnswer> answers = new ArrayList<>();
 
     public String getAnswersAsDelimitedString()
     {

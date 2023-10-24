@@ -7,7 +7,6 @@ import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizzQuestion;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ChapitreQuizzService implements IService<ChapitreQuizz> {

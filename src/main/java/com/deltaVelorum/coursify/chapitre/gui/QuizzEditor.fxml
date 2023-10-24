@@ -5,10 +5,12 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.chapitre.gui.QuizzEditorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="604.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.deltaVelorum.coursify.chapitre.gui.QuizzEditorController">
    <children>
       <Label layoutX="99.0" layoutY="14.0" text="Quizz Editor">
          <font>
@@ -25,8 +27,15 @@
       <Button layoutX="305.0" layoutY="460.0" mnemonicParsing="false" onAction="#onAddAnswerButtonClick" text="+" />
       <Button layoutX="273.0" layoutY="459.0" mnemonicParsing="false" onAction="#onRemoveAnswerButtonClick" prefHeight="26.0" prefWidth="25.0" text="-" />
       <Button layoutX="43.0" layoutY="511.0" mnemonicParsing="false" onAction="#onSaveButtonClick" prefHeight="26.0" prefWidth="134.0" text="Save All" />
-      <Button layoutX="191.0" layoutY="511.0" mnemonicParsing="false" onAction="#onQuitButtonClick" prefHeight="26.0" prefWidth="134.0" text="Cancel" />
+      <Button layoutX="191.0" layoutY="511.0" mnemonicParsing="false" onAction="#onQuitButtonClick" prefHeight="26.0" prefWidth="141.0" text="Cancel" />
       <Separator layoutX="43.0" layoutY="495.0" prefHeight="3.0" prefWidth="285.0" />
       <TableView fx:id="answersList" layoutX="41.0" layoutY="279.0" prefHeight="171.0" prefWidth="286.0" />
+      <Button fx:id="useAIButton" layoutX="63.0" layoutY="546.0" mnemonicParsing="false" onAction="#onAIButtonClick" prefHeight="26.0" prefWidth="117.0" text="AI Generate Quizz" textFill="#ff00ae" underline="true" />
+      <ImageView fitHeight="36.0" fitWidth="34.0" layoutX="26.0" layoutY="542.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/brain.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="generateRandomQuizzButton" layoutX="191.0" layoutY="546.0" mnemonicParsing="false" onAction="#onGenerateRandomQuizzButtonClick" prefHeight="26.0" prefWidth="142.0" text="Generate Random" wrapText="true" />
    </children>
 </AnchorPane>

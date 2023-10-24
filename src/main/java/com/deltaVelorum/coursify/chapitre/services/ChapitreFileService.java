@@ -3,7 +3,6 @@ package com.deltaVelorum.coursify.chapitre.services;
 import com.deltaVelorum.coursify.DatabaseConnection;
 import com.deltaVelorum.coursify.IService;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreFile;
-import com.deltaVelorum.coursify.chapitre.entities.ChapitreQuizz;
 
 import java.sql.*;
 import java.util.ArrayList;

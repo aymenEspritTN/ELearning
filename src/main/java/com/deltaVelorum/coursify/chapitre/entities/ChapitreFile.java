@@ -28,7 +28,16 @@ public class ChapitreFile {
     {
         File tempFile;
         try {
-            tempFile = File.createTempFile(java.util.UUID.randomUUID().toString(), "." + extension);
+            // Get the system's temporary directory
+            String tempDirectory = System.getProperty("java.io.tmpdir");
+
+            // Specify the path to the temporary folder and the file name
+            String tempFolderPath = tempDirectory + File.separator + "coursify_temp";
+            tempFile = new File(tempFolderPath, java.util.UUID.randomUUID().toString() + "." + extension);
+
+            // Create the parent directories if they don't exist
+            tempFile.getParentFile().mkdirs();
+
             try (FileOutputStream fos = new FileOutputStream(tempFile)) {
                 fos.write(content);
             }
