@@ -16,22 +16,23 @@ public class Main extends Application {
         //System.out.println(Utils.chatGPT("recite one shakespeare poem"));
         //System.out.println(Utils.translate("hello how are you?"));
         //System.out.println(Utils.getTriviaQuestions(5));
+        //Utils.readTTS("hello how are u");
 
-        /*URL url = getClass().getResource("com/deltaVelorum/coursify/chapitre/gui/ChapterEditor.fxml");
+        URL url = getClass().getResource("com/deltaVelorum/coursify/chapitre/gui/ChapterEditor.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
         ChapterEditorController controller = loader.getController();
         primaryStage.setTitle("Chapitre Editor");
         primaryStage.setScene(new Scene(root));
-        primaryStage.show();*/
+        primaryStage.show();
 
-        URL url = getClass().getResource("com/deltaVelorum/coursify/courseViewer/gui/CourseViewer.fxml");
+        /*URL url = getClass().getResource("com/deltaVelorum/coursify/courseViewer/gui/CourseViewer.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
         CourseViewerController controller = loader.getController();
         primaryStage.setTitle("Course Viewer");
         primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+        primaryStage.show();*/
     }
 
     public static void main(String[] args) {

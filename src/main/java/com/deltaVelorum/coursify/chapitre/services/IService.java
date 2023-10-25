@@ -1,4 +1,4 @@
-package com.deltaVelorum.coursify;
+package com.deltaVelorum.coursify.chapitre.services;
 
 import java.util.List;
 

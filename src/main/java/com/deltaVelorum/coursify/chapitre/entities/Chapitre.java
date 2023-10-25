@@ -7,6 +7,7 @@ public class Chapitre {
     private String description = "No description.";
     private Date creationDate = new java.util.Date();
     private ChapitreType type = ChapitreType.Text;
+    private int courseId;
 
     @Override
     public String toString() {
@@ -57,5 +58,13 @@ public class Chapitre {
 
     public ChapitreType getType() {
         return type;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 }

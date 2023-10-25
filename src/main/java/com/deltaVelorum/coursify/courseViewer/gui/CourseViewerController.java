@@ -2,8 +2,10 @@ package com.deltaVelorum.coursify.courseViewer.gui;
 
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreType;
+import com.deltaVelorum.coursify.chapitre.gui.Utils;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreFileService;
 import com.deltaVelorum.coursify.chapitre.services.ChapitreService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -17,6 +19,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +34,8 @@ public class CourseViewerController {
     public AnchorPane anchorPaneContainer;
     public ScrollPane mainContainerScrollPane;
 
+    private static String rawFullCourseText;
+
     public void initialize()
     {
         mainContainer.setAlignment(Pos.TOP_CENTER);
@@ -42,8 +47,16 @@ public class CourseViewerController {
         addChapitre(mainContainer, ChapitreService.getInstance().getOne(25));
     }
 
+    public void onTTSButtonClick(javafx.event.ActionEvent actionEvent) {
+        //Utils.readTTS(rawFullCourseText);
+        new Thread(() -> {
+            Utils.readTTS(rawFullCourseText);
+        }).start();
+    }
+
     /*private static void addCourse(Label courseTitleLabel, VBox mainContainer, Course course)
     {
+        rawFullCourseText = ""; //reset
         courseTitleLabel.setText(course.getTitle());
         Label descLabel = new Label(course.getDescription());
         descLabel.setStyle("-fx-font-size: 16px");
@@ -59,6 +72,9 @@ public class CourseViewerController {
         chapterDescLabel.setStyle("-fx-font-size: 20px; -fx-font-style: italic;");
         mainContainer.getChildren().add(chapterDescLabel);
 
+        rawFullCourseText += chapitre.getName() + ".";
+        rawFullCourseText += chapitre.getDescription() + ".";
+
         if(chapitre.getType() == ChapitreType.Quizz)
         {
 
@@ -66,9 +82,11 @@ public class CourseViewerController {
         else if(chapitre.getType() == ChapitreType.Text)
         {
             var file = ChapitreFileService.getInstance().getOneByChapitreId(chapitre.getId());
-            Label textView = new Label(new String(file.getContent(), StandardCharsets.UTF_8));
+            String textContent = new String(file.getContent(), StandardCharsets.UTF_8);
+            Label textView = new Label(textContent);
             textView.setStyle("-fx-font-size: 16px; -fx-text-alignment: center;");
             mainContainer.getChildren().add(textView);
+            rawFullCourseText += textContent + ".";
         }
         else if (chapitre.getType() == ChapitreType.PDF)
         {
@@ -123,4 +141,5 @@ public class CourseViewerController {
             mainContainer.getChildren().add(helpLabel);
         }
     }
+
 }

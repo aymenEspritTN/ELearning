@@ -2,6 +2,8 @@ package com.deltaVelorum.coursify.chapitre.gui;
 
 import com.deltaVelorum.coursify.chapitre.entities.*;
 import com.mysql.cj.util.StringUtils;
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.VoiceManager;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
@@ -57,7 +59,22 @@ public class Utils {
         return "";
     }
 
-
+    public static void readTTS(String text) {
+        //https://stackoverflow.com/a/48606173
+        System.setProperty("freetts.voices", "com.sun.speech.freetts.en.us.cmu_us_kal.KevinVoiceDirectory");
+        VoiceManager voiceManager = VoiceManager.getInstance();
+        Voice[] voices = voiceManager.getVoices();
+        System.out.println("Available Voices:" + voices.length);
+        for (Voice voice : voices) {
+            System.out.println(voice.getName());
+        }
+        System.out.println("----------");
+        Voice voice = voiceManager.getVoice("kevin16");
+        voice.setVolume(1.0f);
+        voice.allocate();
+        voice.speak(text);
+        voice.deallocate();
+    }
 
     public static ArrayList<ChapitreQuizzQuestion> getTriviaQuestions(int numberOfQuestions) {
         ArrayList<ChapitreQuizzQuestion> questionsList = new ArrayList<>();

@@ -1,7 +1,5 @@
 package com.deltaVelorum.coursify.chapitre.services;
 
-import com.deltaVelorum.coursify.DatabaseConnection;
-import com.deltaVelorum.coursify.IService;
 import com.deltaVelorum.coursify.chapitre.entities.Chapitre;
 import com.deltaVelorum.coursify.chapitre.entities.ChapitreType;
 
@@ -29,7 +27,8 @@ public class ChapitreService implements IService<Chapitre> {
                     "name VARCHAR(255)," +
                     "description TEXT," +
                     "creationDate DATE," +
-                    "type INT)";
+                    "type INT," +
+                    "courseId int)";
             stmt.executeUpdate(createTableQuery);
             System.out.println("Table created or already exists: chapitres");
         } catch (SQLException ex) {
@@ -40,13 +39,14 @@ public class ChapitreService implements IService<Chapitre> {
     public void add(Chapitre chapitre)
     {
         Connection cnx = DatabaseConnection.getInstance().getCnx();
-        String query = "INSERT INTO chapitres (name, description, creationDate, type) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO chapitres (name, description, creationDate, type, courseId) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = cnx.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
         {
             pst.setString(1, chapitre.getName());
             pst.setString(2, chapitre.getDescription());
             pst.setDate(3, new java.sql.Date(chapitre.getCreationDate().getTime()));
             pst.setInt(4, chapitre.getType().ordinal());
+            pst.setInt(5, chapitre.getCourseId());
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -116,7 +116,8 @@ public class ChapitreService implements IService<Chapitre> {
                 "name=?, " +
                 "description=?, " +
                 "creationDate=?, " +
-                "type=? " +
+                "type=?, " +
+                "courseId=? " +
                 "WHERE id=?";
         try (PreparedStatement pst = cnx.prepareStatement(query))
         {
@@ -124,7 +125,8 @@ public class ChapitreService implements IService<Chapitre> {
             pst.setString(2, chapitre.getDescription());
             pst.setDate(3, new java.sql.Date(chapitre.getCreationDate().getTime()));
             pst.setInt(4, chapitre.getType().ordinal());
-            pst.setInt(5, chapitre.getId());
+            pst.setInt(5, chapitre.getCourseId());
+            pst.setInt(6, chapitre.getId());
 
             int affectedRows = pst.executeUpdate();
             if (affectedRows > 0) {
@@ -155,6 +157,7 @@ public class ChapitreService implements IService<Chapitre> {
                 if (timestamp != null) {
                     chapitre.setCreationDate(new Date(timestamp.getTime()));
                 }
+                chapitre.setCourseId(rs.getInt("courseId"));
                 mylist.add(chapitre);
             }
         } catch (SQLException ex) {

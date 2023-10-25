@@ -14,6 +14,7 @@ public class ChapterEditorController {
     @FXML
     public TableView<Chapitre> chaptersView;
     private List<Chapitre> originalChapitres;
+    private Course course;
     public void initialize()
     {
         ChapitreService.getInstance().createTableIfNotExist();
@@ -27,6 +28,7 @@ public class ChapterEditorController {
     {
         ChapitreService.getInstance().createTableIfNotExist();
         Utils.setupChaptersTable(chaptersView);
+        // load course chapters
         originalChapitres = new ArrayList<>();
         for(int chapitreId : course.chapitresIds)
         {
